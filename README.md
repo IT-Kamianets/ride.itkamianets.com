@@ -1,6 +1,4 @@
-Clear picture.
-
-## App tasks
+## Ride app tasks
 
 ### 1. Project setup
 
@@ -12,7 +10,7 @@ Need:
 - Capacitor configured
 - Android platforms prepared
 - basic app shell
-- bottom/top navigation if needed
+- bottom and top navigation
 
 ---
 
