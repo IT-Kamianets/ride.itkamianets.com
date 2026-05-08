@@ -9,7 +9,7 @@ export const routes: Routes = [
 			},
 		},
 		loadComponent: () =>
-			import('./pages/landing/landing.component').then((m) => m.LandingComponent),
+			import('./pages/ride-tracker/ride-tracker.component').then((m) => m.RideTrackerComponent),
 	},
 	{
 		path: '**',
