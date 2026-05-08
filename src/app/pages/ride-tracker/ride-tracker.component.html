@@ -1,0 +1,76 @@
+<section class="tracker-page">
+	<header class="tracker-topbar">
+		<div>
+			<p class="tracker-title">Ride Tracker</p>
+			<p class="tracker-subtitle">Status: {{ state().status }}</p>
+		</div>
+		<span class="tracker-chip">{{ gpsStatus() }}</span>
+	</header>
+
+	<main class="tracker-content">
+		<section class="tracker-map-card">
+			<div class="map-header">
+				<h2>Route preview</h2>
+				<span>{{ state().points.length }} pts</span>
+			</div>
+
+			@if (routePath()) {
+				<svg [attr.viewBox]="'0 0 240 240'" class="route-svg" role="img" aria-label="Route preview">
+					<path [attr.d]="routePath()" />
+				</svg>
+			} @else {
+				<div class="map-placeholder">
+					<p>Map placeholder</p>
+					<p>Move to start drawing your route.</p>
+				</div>
+			}
+
+			@if (latestPoint(); as point) {
+				<p class="coords">Lat: {{ point.lat }} | Lng: {{ point.lng }}</p>
+			} @else {
+				<p class="coords">Waiting for location...</p>
+			}
+		</section>
+
+		<section class="tracker-stats">
+			<article>
+				<h3>Distance</h3>
+				<p>{{ toKm(state().distanceMeters) }} km</p>
+			</article>
+			<article>
+				<h3>Duration</h3>
+				<p>{{ toDurationText(durationMs()) }}</p>
+			</article>
+			<article>
+				<h3>Current speed</h3>
+				<p>{{ toSpeed(currentSpeedKmh()) }} km/h</p>
+			</article>
+			<article>
+				<h3>Average speed</h3>
+				<p>{{ toSpeed(avgSpeedKmh()) }} km/h</p>
+			</article>
+			<article>
+				<h3>Max speed</h3>
+				<p>{{ toSpeed(state().maxSpeedKmh) }} km/h</p>
+			</article>
+		</section>
+	</main>
+
+	<nav class="tracker-bottom-nav" aria-label="Ride actions">
+		@if (state().status === 'idle' || state().status === 'finished') {
+			<button type="button" class="primary" (click)="startRide()">Start</button>
+		}
+
+		@if (state().status === 'active') {
+			<button type="button" class="secondary" (click)="pauseRide()">Pause</button>
+			<button type="button" class="danger" (click)="finishRide()">Finish</button>
+		}
+
+		@if (state().status === 'paused') {
+			<button type="button" class="primary" (click)="resumeRide()">Resume</button>
+			<button type="button" class="danger" (click)="finishRide()">Finish</button>
+		}
+
+		<button type="button" class="ghost" (click)="resetRide()">Reset</button>
+	</nav>
+</section>
